@@ -14,7 +14,12 @@ La API incluye:
 > **Nota:** El endpoint `/datos-sensibles/{usuario}` fue diseñado con fines académicos para analizar posibles vulnerabilidades relacionadas con el control de acceso y la autenticación.
 
 ---
+## entorno virtual 
 
+```primero creo el enotrno 
+python -m venv env
+```Activamos el enotorno
+source env/bin/activate
 ## Estructura del Proyecto
 
 ```text
