@@ -1,25 +1,44 @@
-# API de Predicción de Datos
+# FinTech Nova - Motor de Riesgo
 
-Esta es una API sencilla desarrollada con FastAPI para fines educativos y de práctica en análisis de vulnerabilidades, despliegue de aplicaciones y pruebas de servicios web.
+API sencilla desarrollada con FastAPI para evaluación de riesgo crediticio y prácticas de desarrollo con endpoints básicos.
 
 ## Descripción
 
-La API incluye:
+Esta API incluye:
 
 - Endpoint principal de bienvenida.
-- Endpoint de verificación de estado (Health Check).
+- Endpoint de verificación de estado (health check).
 - Endpoint de consulta de datos de usuarios.
 - Base de datos simulada en memoria.
 
-> **Nota:** El endpoint `/datos-sensibles/{usuario}` fue diseñado con fines académicos para analizar posibles vulnerabilidades relacionadas con el control de acceso y la autenticación.
+> **Nota:** El endpoint `/datos-sensibles/{usuario}` es intencionalmente sencillo y se usa para fines académicos sobre control de acceso y autenticación.
 
----
-## entorno virtual 
+## Requisitos
 
-```primero creo el enotrno 
+- Python 3.9 o superior
+- `pip`
+- Entorno virtual recomendado
+
+## Instalación
+
+1. Crear el entorno virtual:
+
+```bash
 python -m venv env
-```Activamos el enotorno
+```
+
+2. Activar el entorno virtual:
+
+```bash
 source env/bin/activate
+```
+
+3. Instalar dependencias:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Estructura del Proyecto
 
 ```text
@@ -29,79 +48,27 @@ source env/bin/activate
 └── README.md
 ```
 
----
+## Ejecución
 
-## Requisitos
-
-- Python 3.9 o superior
-- GitHub Codespaces (recomendado)
-- Pip
-
----
-
-## Dependencias
-
-Archivo `requirements.txt`
-
-```txt
-fastapi
-uvicorn
-```
-
-Instalar dependencias:
+Inicie la API con:
 
 ```bash
-pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
----
-
-## Ejecución en GitHub Codespaces
-
-### Paso 1. Abrir el proyecto
-
-1. Ingrese al repositorio de GitHub.
-2. Seleccione **Code**.
-3. Haga clic en **Codespaces**.
-4. Cree un nuevo Codespace.
-
----
-
-### Paso 2. Instalar dependencias
-
-En la terminal ejecute:
+Si el puerto `8000` ya está en uso, cambie el puerto:
 
 ```bash
-pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8001 --reload
 ```
-
----
-
-### Paso 3. Iniciar la API
-
-Ejecute el siguiente comando:
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
-```
-
-Si todo funciona correctamente, verá un mensaje similar a:
-
-```text
-INFO:     Uvicorn running on http://0.0.0.0:8000
-```
-
----
 
 ## Endpoints Disponibles
 
-### 1. Página Principal
-
-**GET /**
+### GET /
 
 Devuelve un mensaje de bienvenida.
 
-Ejemplo:
+Ejemplo de respuesta:
 
 ```json
 {
@@ -109,15 +76,11 @@ Ejemplo:
 }
 ```
 
----
+### GET /status
 
-### 2. Estado del Sistema
+Verifica el estado de la API.
 
-**GET /status**
-
-Permite verificar que la API está funcionando correctamente.
-
-Ejemplo:
+Ejemplo de respuesta:
 
 ```json
 {
@@ -126,13 +89,9 @@ Ejemplo:
 }
 ```
 
----
+### GET /datos-sensibles/{usuario}
 
-### 3. Consulta de Datos de Usuario
-
-**GET /datos-sensibles/{usuario}**
-
-Obtiene información asociada a un usuario almacenado en la base de datos simulada.
+Devuelve información de usuario de la base de datos simulada.
 
 Ejemplo:
 
@@ -140,7 +99,7 @@ Ejemplo:
 GET /datos-sensibles/user1
 ```
 
-Respuesta:
+Ejemplo de respuesta:
 
 ```json
 {
@@ -150,59 +109,25 @@ Respuesta:
 }
 ```
 
----
-
 ## Usuarios Disponibles
 
-La base de datos simulada contiene:
-
-| Usuario | Estado |
-|----------|----------|
-| user1 | Activo |
-| user2 | Inactivo |
-
----
+- `user1` — Activo
+- `user2` — Inactivo
 
 ## Documentación Automática
 
-FastAPI genera documentación interactiva automáticamente.
+FastAPI genera documentación interactiva automáticamente en:
 
-Una vez ejecutada la aplicación, puede acceder a:
+- `http://localhost:8000/docs`
+- `http://localhost:8000/redoc`
 
-### Swagger UI
+## Objetivos Educativos
 
-```text
-http://localhost:8000/docs
-```
+- Aprender la creación de APIs con FastAPI.
+- Practicar despliegue local con Uvicorn.
+- Revisar control de acceso y seguridad básica en endpoints.
 
-### ReDoc
+## Dependencias
 
-```text
-http://localhost:8000/redoc
-```
-
----
-
-## Objetivo Académico
-
-Este proyecto fue creado para:
-
-- Comprender el funcionamiento básico de FastAPI.
-- Desplegar servicios web en GitHub Codespaces.
-- Realizar pruebas de APIs REST.
-- Analizar controles de acceso y autenticación.
-- Practicar actividades de análisis de vulnerabilidades en entornos controlados.
-
----
-
-## Tecnologías Utilizadas
-
-- Python
-- FastAPI
-- Uvicorn
-
----
-
-## Autor
-
-Proyecto académico para prácticas de desarrollo seguro y análisis de vulnerabilidades.
+- `fastapi`
+- `uvicorn`

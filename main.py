@@ -1,21 +1,36 @@
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
-app = FastAPI(title="API de Predicción de Datos", version="1.0")
 
-# Base de datos simulada
-datos_usuarios = {"user1": "Activo", "user2": "Inactivo"}
-
-@app.get("/")
-def read_root():
-    return {"mensaje": "Bienvenido a la API de Análisis. El sistema está en línea."}
+app = FastAPI(
+    title="FinTech Nova - Motor de Riesgo",
+    version="1.0.0"
+)
+class SolicitudCredito(BaseModel): 
+    edad: int 
+    ingreso :float
+    deudas :float
 
 @app.get("/status")
-def health_check():
-    return {"status": "ok", "servicios": "operativos"}
+def get_status():
+    return {"estado":"Operacional","servidor": "Node-01"}
 
-# Endpoint intencionalmente vulnerable (sin autenticación) para la Unidad 2
-@app.get("/datos-sensibles/{usuario}")
-def obtener_datos_privados(usuario: str):
-    if usuario in datos_usuarios:
-        return {"usuario": usuario, "estado": datos_usuarios[usuario], "datos_financieros": "Confidencial"}
-    raise HTTPException(status_code=404, detail="Usuario no encontrado")
+@app.post("/evaluar-riesgo") 
+def evaluar_riesgo(solicitud: SolicitudCredito): 
+    score = solicitud.ingresos - solicitud.deudas 
+    if solicitud.edad < 18:
+        resultado = "Rechazado (Menor de edad)" 
+    elif score > 1000: 
+        resultado = "Aprobado"  
+    else: 
+        resultado = "En Revision"  
+    return {"resultado": resultado, "score_simulado": score} 
+    
+@app.get("/datos-financieros/{id_cliente}") 
+def obtener_historial(id_cliente: int): 
+        return { 
+        "cliente_id": id_cliente, 
+        "historial": "Limpio", 
+        "score_interno": 750 
+    } 
+
