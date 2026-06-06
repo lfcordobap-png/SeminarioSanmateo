@@ -17,7 +17,7 @@ def get_status():
 
 @app.post("/evaluar-riesgo") 
 def evaluar_riesgo(solicitud: SolicitudCredito): 
-    score = solicitud.ingresos - solicitud.deudas 
+    score = solicitud.ingreso - solicitud.deudas 
     if solicitud.edad < 18:
         resultado = "Rechazado (Menor de edad)" 
     elif score > 1000: 
