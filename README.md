@@ -1,22 +1,24 @@
 # FinTech Nova - Motor de Riesgo
 
-API sencilla desarrollada con FastAPI para evaluación de riesgo crediticio y prácticas de desarrollo con endpoints básicos.
+API desarrollada con FastAPI para practicar conceptos de seguridad en aplicaciones web y demostrar un flujo básico de evaluación de riesgo crediticio.
 
 ## Descripción
 
-Esta API incluye:
+Esta aplicación ofrece una API sencilla que incluye:
 
-- Endpoint principal de bienvenida.
-- Endpoint de verificación de estado (health check).
-- Endpoint de consulta de datos de usuarios.
-- Base de datos simulada en memoria.
+- Un endpoint de bienvenida.
+- Un endpoint de estado del servicio.
+- Un ejemplo de consulta vulnerable a SQL injection.
+- Un ejemplo equivalente usando consultas parametrizadas.
+- Un endpoint para simular la evaluación de riesgo de un crédito.
+- Un endpoint para consultar datos financieros de ejemplo.
 
-> **Nota:** El endpoint `/datos-sensibles/{usuario}` es intencionalmente sencillo y se usa para fines académicos sobre control de acceso y autenticación.
+Además, la API añade cabeceras de seguridad mediante middleware para reforzar la configuración básica de la aplicación.
 
 ## Requisitos
 
 - Python 3.9 o superior
-- `pip`
+- pip
 - Entorno virtual recomendado
 
 ## Instalación
@@ -39,30 +41,31 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-## Estructura del Proyecto
+## Estructura del proyecto
 
 ```text
 .
 ├── main.py
 ├── requirements.txt
-└── README.md
+├── README.md
+└── docs/
 ```
 
 ## Ejecución
 
-Inicie la API con:
+Iniciar la API con:
 
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Si el puerto `8000` ya está en uso, cambie el puerto:
+Si el puerto 8000 está ocupado, puede cambiarse por otro, por ejemplo:
 
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8001 --reload
 ```
 
-## Endpoints Disponibles
+## Endpoints disponibles
 
 ### GET /
 
@@ -78,56 +81,79 @@ Ejemplo de respuesta:
 
 ### GET /status
 
-Verifica el estado de la API.
+Verifica si el servicio se encuentra operativo.
 
 Ejemplo de respuesta:
 
 ```json
 {
-  "status": "ok",
-  "servicios": "operativos"
+  "estado": "Operacional",
+  "servidor": "Node-01"
 }
 ```
 
-### GET /datos-sensibles/{usuario}
+### GET /vulnerable/users/{username}
 
-Devuelve información de usuario de la base de datos simulada.
+Ejemplo académico de una consulta vulnerable a SQL injection.
 
 Ejemplo:
 
 ```http
-GET /datos-sensibles/user1
+GET /vulnerable/users/admin
 ```
 
-Ejemplo de respuesta:
+### GET /secure/users/{username}
+
+Versión segura de la consulta anterior usando parámetros preparados.
+
+Ejemplo:
+
+```http
+GET /secure/users/admin
+```
+
+### POST /evaluar-riesgo
+
+Simula una evaluación de riesgo crediticio a partir de los datos enviados.
+
+Body de ejemplo:
 
 ```json
 {
-  "usuario": "user1",
-  "estado": "Activo",
-  "datos_financieros": "Confidencial"
+  "edad": 35,
+  "ingreso": 2500,
+  "deudas": 800
 }
 ```
 
-## Usuarios Disponibles
+Respuesta esperada:
 
-- `user1` — Activo
-- `user2` — Inactivo
+```json
+{
+  "resultado": "En Revision",
+  "score_simulado": 1700
+}
+```
 
-## Documentación Automática
+### GET /datos-financieros/{id_cliente}
 
-FastAPI genera documentación interactiva automáticamente en:
+Devuelve un ejemplo de información financiera para un cliente.
 
-- `http://localhost:8000/docs`
-- `http://localhost:8000/redoc`
+Ejemplo:
 
-## Objetivos Educativos
+```http
+GET /datos-financieros/101
+```
 
-- Aprender la creación de APIs con FastAPI.
-- Practicar despliegue local con Uvicorn.
-- Revisar control de acceso y seguridad básica en endpoints.
+## Documentación automática
+
+FastAPI genera documentación interactiva en:
+
+- http://localhost:8000/docs
+- http://localhost:8000/redoc
 
 ## Dependencias
 
-- `fastapi`
-- `uvicorn`
+- fastapi
+- uvicorn
+- pydantic
