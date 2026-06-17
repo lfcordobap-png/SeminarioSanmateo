@@ -1,200 +1,124 @@
-# FinTech Nova - Motor de Riesgo
+# FinTech Nova - Secure API Practice
 
-API sencilla desarrollada con FastAPI para evaluación de riesgo crediticio y prácticas de seguridad en APIs.
+API educativa desarrollada con FastAPI para practicar validación de datos, consultas SQL seguras y medidas básicas de hardening en APIs.
 
-## Descripción
+## Qué incluye
 
-Esta API incluye:
-
-- Endpoint principal de bienvenida.
-- Endpoint de verificación de estado.
-- Endpoint vulnerable a SQL injection para demostraciones.
-- Endpoint seguro con consultas parametrizadas.
-- Endpoint de evaluación de riesgo con modelo Pydantic.
-- Base de datos SQLite en memoria para ejemplos.
+- Ruta principal de bienvenida.
+- Endpoint de estado del servicio.
+- Ejemplo vulnerable a SQL injection para fines demostrativos.
+- Ejemplo seguro con consultas parametrizadas.
+- Evaluación simple de riesgo crediticio con Pydantic.
+- Historial financiero simulado por cliente.
+- Cabeceras de seguridad agregadas en cada respuesta.
 
 ## Requisitos
 
-- Python 3.9 o superior
-- `pip`
-- Entorno virtual recomendado
+- Python 3.9 o superior.
+- pip.
+- Entorno virtual recomendado.
 
 ## Instalación
 
 1. Crear el entorno virtual:
 
-```bash
-python -m venv env
-```
+   python -m venv env
 
 2. Activar el entorno virtual:
 
-```bash
-source env/bin/activate
-```
+   source env/bin/activate
 
 3. Instalar dependencias:
 
-```bash
-pip install -r requirements.txt
-```
+   pip install -r requirements.txt
 
-## Estructura del Proyecto
+## Estructura del proyecto
 
-```text
 .
 ├── main.py
 ├── requirements.txt
-└── README.md
-```
+├── README.md
+├── backup_db.sh
+├── backups/
+└── docs/
+    └── diagramas/
 
 ## Ejecución
 
-Inicie la API con:
+Inicia la API con:
 
-```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-```
 
-Si el puerto `8000` ya está en uso, cambie el puerto:
+Si el puerto 8000 ya está en uso, usa otro valor de puerto.
 
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8001 --reload
-```
-
-## Endpoints Disponibles
+## Endpoints
 
 ### GET /
 
 Devuelve un mensaje de bienvenida.
 
-Ejemplo de respuesta:
+Respuesta:
 
-```json
 {
   "mensaje": "Bienvenido a la API de Análisis. El sistema está en línea."
 }
-```
 
 ### GET /status
 
-Verifica el estado de la API.
+Retorna el estado operacional de la API.
 
-Ejemplo de respuesta:
+Respuesta:
 
-```json
 {
   "estado": "Operacional",
   "servidor": "Node-01"
 }
-```
 
 ### GET /vulnerable/users/{username}
 
-Ejemplo vulnerable que construye la consulta SQL mediante concatenación directa.
-
-Ejemplo de solicitud:
-
-```http
-GET /vulnerable/users/admin
-```
-
-Respuesta posible:
-
-```json
-{
-  "query_ejecutada": "SELECT * FROM users WHERE username = 'admin'",
-  "resultado": [[1, "admin", "superadmin"]]
-}
-```
-
-> ⚠️ Este endpoint es solo para fines educativos. No use concatenación de strings con datos de usuario en SQL reales.
+Construye la consulta SQL mediante concatenación directa. Es un ejemplo inseguro y solo debe usarse con fines educativos.
 
 ### GET /secure/users/{username}
 
-Ejemplo seguro que usa consultas parametrizadas.
-
-Ejemplo de solicitud:
-
-```http
-GET /secure/users/juan
-```
-
-Respuesta posible:
-
-```json
-{
-  "query_ejecutada": "SELECT * FROM users WHERE username = ?",
-  "resultado": [[2, "juan", "user"]]
-}
-```
+Usa consultas parametrizadas para evitar inyección SQL.
 
 ### POST /evaluar-riesgo
 
-Evalúa una solicitud de crédito mediante un modelo Pydantic.
+Evalúa una solicitud de crédito con este cuerpo:
 
-Ejemplo de cuerpo:
-
-```json
 {
   "edad": 30,
   "ingreso": 2500.0,
   "deudas": 1200.0
 }
-```
 
-Ejemplo de respuesta:
+Respuesta posible:
 
-```json
 {
   "resultado": "Aprobado",
   "score_simulado": 1300.0
 }
-```
 
 ### GET /datos-financieros/{id_cliente}
 
-Devuelve un historial financiero simulado para un cliente.
+Devuelve un historial financiero simulado para el cliente solicitado.
 
-Ejemplo de solicitud:
+## Usuarios simulados
 
-```http
-GET /datos-financieros/1
-```
+- admin: superadmin
+- juan: user
+- maria: user
 
-Ejemplo de respuesta:
+## Documentación automática
 
-```json
-{
-  "cliente_id": 1,
-  "historial": "Limpio",
-  "score_interno": 750
-}
-```
+FastAPI expone documentación interactiva en:
 
-## Usuarios Simulados
+- http://localhost:8000/docs
+- http://localhost:8000/redoc
 
-- `admin` — superadmin
-- `juan` — user
-- `maria` — user
+## Notas técnicas
 
-## Documentación Automática
-
-FastAPI genera documentación interactiva automáticamente en:
-
-- `http://localhost:8000/docs`
-- `http://localhost:8000/redoc`
-
-## Objetivos Educativos
-
-- Aprender a construir APIs con FastAPI.
-- Explorar riesgos de SQL injection y soluciones con queries parametrizados.
-- Usar Pydantic para validación de esquemas.
-- Ejecutar un servidor Uvicorn local.
-
-## Dependencias
-
-- `fastapi`
-- `uvicorn`
-- `pydantic`
+- La base de datos se crea en memoria en cada petición.
+- La aplicación agrega cabeceras de seguridad como X-Content-Type-Options, X-Frame-Options, Content-Security-Policy y Strict-Transport-Security.
+- El proyecto usa FastAPI, Uvicorn y Pydantic.
 
