@@ -1,5 +1,10 @@
 FROM python:3.12-slim
 
+#INSTRUCCIÓN 2: LABEL — Metadatos de la imagen (documentación)
+LABEL maintainer="fintech-nova@empresa.com"
+LABEL version="1.0.0"
+LABEL description="API de evaluación crediticia FinTech Nova"
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
