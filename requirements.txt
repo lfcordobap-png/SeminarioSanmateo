@@ -1,7 +1,8 @@
 fastapi[standard]>=0.115.0,<0.137.0
 uvicorn[standard]>=0.24.0,<0.25.0
 pydantic==2.9.2
-python-jose==3.4.0
+python-jose==3.5.0
+pyasn1==0.6.3
 passlib==1.7.4
 sqlalchemy==2.0.23
 requests==2.33.0
