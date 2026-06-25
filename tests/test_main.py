@@ -97,7 +97,8 @@ def test_evaluar_riesgo_tipos_invalidos():
 
 def test_datos_financieros_sin_token():
     response = client.get("/datos-financieros/1")
-    assert response.status_code == 403
+    # FastAPI retorna 401 o 403 según la versión (comportamiento de HTTPBearer)
+    assert response.status_code in [401, 403]
 
 
 def test_datos_financieros_token_invalido():
